@@ -1,1 +1,5 @@
-Hola mundo,10
+Hola mundo
+Python
+Java
+Programacion Orientada a objetos
+Linux Mejor que Windows
