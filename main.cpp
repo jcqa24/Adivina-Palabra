@@ -25,7 +25,7 @@ public:
 	Palabra(string, int);
 	Palabra();
 	void muestraPalabra();
-	int buscarLetra(char letra);
+	list<int> buscarLetra(char letra);
 };
 
 Palabra::Palabra(string word, int size)
@@ -40,14 +40,15 @@ Palabra::Palabra()
 	tamaño = 0;
 }
 
-int Palabra :: buscarLetra(char letra){
+list <int> Palabra :: buscarLetra(char letra){
+	list <int> pos;
 	for (int i = 0; i < tamaño; i++)
 	{
 		if(palabra.at(i) == letra){
-			return i;
+			pos.push_back(i);
 		}
 	}
-	return -1;	
+	return pos;	
 }
 
 //Variable Global
@@ -65,7 +66,7 @@ void imprimeMono(int errores){
 	switch (errores)
 	{
 	case 1 : 
-			cout << "\t o \t|" << endl;
+			cout << "\t o" << endl;
 		break;
 	case 2 : 
 			cout << "\t o" << endl;
@@ -103,7 +104,8 @@ int main(int argc, char **argv)
 	string namefile = "words.txt";
 	char letra;
 	Jugador p1;
-
+	list <int> resposci;
+	int j;
 	
 	int cpos, num, cletra = 0;
 	ifstream file;
@@ -111,6 +113,7 @@ int main(int argc, char **argv)
 	char *copy;
 
 	list<Palabra>::iterator pos;
+	
 
 	file.open(namefile.c_str());
 	if (file.fail())
@@ -191,11 +194,14 @@ int main(int argc, char **argv)
 
 	luser = toupper(luser);
 
-	posci = temp.buscarLetra(luser);
-	if(posci != -1){
-		copy[posci] = luser;
-		cout << "La letra esta en la poscicon :" << posci << endl;
-		p1.aciertos++;
+	resposci = temp.buscarLetra(luser);
+	if(! resposci.empty()){
+		while(! resposci.empty()){
+			copy[resposci.front()] = luser;
+			p1.aciertos++;
+			resposci.pop_front();
+		}
+		
 	}else{
 		cout << "La letra no esta en la palabra :" << endl;
 		p1.errores++;
